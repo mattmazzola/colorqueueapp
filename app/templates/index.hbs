@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <ul class="color-queue-list">
+      {{#each model as |color|}}
+        <li>
+            <div class="row">
+              <div class="col-xs-3 text-right color-time">
+                <span class="glyphicon glyphicon-time"></span> {{color.duration}}
+              </div>
+              <div class="col-xs-3">
+                <div class="color" style="background-color: rgba({{color.r}},{{color.g}},{{color.b}},{{color.a}});">
+                </div>
+                rgba({{color.r}},{{color.g}},{{color.b}},{{color.a}})
+              </div>
+              <div class="col-xs-3">
+                {{color.transition}}
+              </div>
+              <div class="col-xs-3">
+                <button class="btn btn-danger" {{action (route-action 'removeColor' color)}}>Remove</button>
+              </div>
+            </div>
+        </li>
+      {{/each}}
+    </ul>
+
+    <hr>
+    
+    <h3>Add Color:</h3>
+    <p>Choose from predefined list:</p>
+    <ul class="new-color-list clearfix">
+      {{#each availableColors as |color|}}
+        <li><button class="color"  style="background-color: rgba({{color.r}},{{color.g}},{{color.b}},{{color.a}});" {{action (route-action 'addColor' color)}}></button></li>
+      {{/each}}
+    </ul>
+    
+    <h3>Add Custom Color:</h3>
+    <div class="row">
+      <div class="col-md-5">
+        {{spectrum-color-picker
+          color=customColorString
+          preferredFormat="rgb"
+          showButtons="true"
+          showAlpha="true"
+          moveFiresChange="true"
+          clickoutFiresChange="true"
+          flatMode="true"
+          onChange=(action "colorChanged")
+        }}
+        <div>
+          {{customColorString}}
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="sample-color" style="background-color: rgba({{customColor.r}},{{customColor.g}},{{customColor.b}},{{customColor.a}});">
+        </div>
+        <button class="btn btn-default btn-lg" {{action (route-action 'addColor' customColor)}}>Add Custom Color</button>
+      </div>
+    </div>
+    
+    <h3>Danger Zone:</h3>
+    <button class="btn btn-lg btn-danger" {{action (route-action 'clear')}}>Remove All Colors!</button>
+  </div>
+</div>
